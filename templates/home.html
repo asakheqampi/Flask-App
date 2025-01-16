@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask Project</title>
-    <link rel="stylesheet" href="../static/styles.css">
+    <title>Flask App</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
 </head>
 <body>
-    <nav>
-     <a href="/">Home</a>
-        <a href="/greet/yourname">Greet</a>
-    </nav>
+    <div class="container">
+        <h1>Welcome to my name app</h1>
+        <form action="/greet" method="POST">
+            <label for="name">Enter your name:</label>
+            <input type="text" id="name" name="name" required>
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
+            <button type="submit">Submit</button>
+        </form>
+</div>
     <div>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -22,12 +29,6 @@
             {% endif %}
         {% endwith %}
     </div>
-    
-    <h1>{{ message }}</h1>
-    <form action="/greet" method="post">
-        <label for="name">Enter your name:</label>
-        <input type="text" id="name" name="name" required>
-        <button type="submit">Submit</button>
-    </form>
 </body>
 </html>
+

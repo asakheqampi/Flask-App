@@ -1,21 +1,25 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
-app.secret_key = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'  # Needed for flash messages
+app.secret_key = 'mysecretkey208'  # Replace with a secure key
 
 @app.route('/')
 def index():
-    return render_template('index.html', message="Welcome to the Flask App!")
+    return render_template('home.html')
 
 @app.route('/greet', methods=['POST'])
 def greet():
-    name = request.form.get('name')
+    # Extract the name from the form
+    name = request.form.get('name', '').strip()
 
-    if not name or not name.isalpha():
-        flash('Invalid name! Please enter alphabetic characters only.', 'error')
-        return render_template('index.html')
+    # Validate the name
+    if not name.isalpha():
+        error = "Name must contain only letters. Please try again."
+        return render_template('home.html', error=error)
 
+    # Render the greet page for valid inputs
     return render_template('greet.html', name=name)
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
